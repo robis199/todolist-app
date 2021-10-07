@@ -2,6 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
+include 'config/db_connect.php';
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get('/', 'TasksController-show');
