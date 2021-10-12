@@ -20,11 +20,6 @@ class TasksCollection
     {
         $this->tasks[$task->getId()] = $task;
     }
-    public function remove(Task $task)
-    {
-        unset($this->tasks[$task->getId()]);
-    }
-
 
     public function getTasks(): array
     {

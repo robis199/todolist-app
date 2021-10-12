@@ -1,20 +1,15 @@
 <?php require_once 'app/Views/partials/header.template.php'; ?>
-<body>
-        <h1>To-Do</h1> <button><a href="/tasks/create">Add</a></button>
-      <ul>
-          <?php foreach ($tasks->getTasks() as $task): ?>
-          <li>
-              <?php echo $task->getTitle(); ?>
-              <small>
-                  (<?php echo $task->getCreationTime(); ?>)
-              </small>
 
-              <form method="post" action="/tasks/<?php echo $task->getId() ?>">
-                    <button type="submit">Delete</button>
-                    </form>
-          </li>
-          <?php endforeach; ?>
-      </ul>
+
+<body>
+<h1><?php echo $task->getTitle(); ?></h1>
+
+<h4><?php echo $task->getCreationTime(); ?></h4>
+
+<form method="post" action="/tasks/<?php echo $task->getId(); ?>">
+    <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+</form>
+
+(<a href="/tasks">Back</a>)
 
 </body>
-

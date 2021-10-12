@@ -1,15 +1,30 @@
 <?php
+session_start();
+
 
 require_once 'vendor/autoload.php';
 
-include 'config/db_connect.php';
+
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    $r->get('/', 'TasksController-show');
-    $r->get('/tasks', 'TasksController-show');
+    $r->get('/', 'TasksController-index');
+    $r->get('/tasks', 'TasksController-index');
     $r->get('/tasks/create', 'TasksController-create');
     $r->post('/tasks', 'TasksController-store');
     $r->post('/tasks/{id}', 'TasksController-delete');
+    $r->get('/tasks/{id}', 'TasksController-show');
+
+
+    $r->get( '/login', 'UserController-userLogin');
+    $r->post( '/login', 'UserController-login');
+    $r->get( '/success', 'UserController-loginSuccess');
+    $r->get( '/logout', 'UserController-logout');
+
+    $r->get( '/records', 'UserController-userRegister');
+    $r->post('/records', 'UserController-register');
+    $r->get( '/registered', 'UserController-confirmation');
+
+    $r->get( '/users', 'UserController-showUserLogin');
 
 });
 
@@ -47,7 +62,7 @@ switch ($routeInfo[0]) {
 
         $controller= 'App\Controllers\\' . $controller;
         $controller = new $controller();
-        $controller->$method();
+        $controller->$method($vars);
 
         break;
 }

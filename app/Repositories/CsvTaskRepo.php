@@ -75,19 +75,15 @@ class CsvTaskRepo implements TasksRepository
     }
 
 
-
-
-
     public function delete(Task $task): void
     {
-        $tasks = $this->getAll();
-        $tasks->remove($task);
+        $tasks = $this->getAll()->getTasks();
 
-
+        unset($tasks[$task->getId()]);
 
         $records = [];
 
-        foreach ($tasks->getTasks() as $task)
+        foreach ($tasks as $task)
         {
             /** @var Task $task */
             $records[] = $task->toArray();
@@ -96,7 +92,6 @@ class CsvTaskRepo implements TasksRepository
 
         $writer = Writer::createFromPath(base_path() . '/storage/todo.csv', 'a+');
         $writer->setDelimiter(';');
-
         $writer->insertAll($records);
 
     }
