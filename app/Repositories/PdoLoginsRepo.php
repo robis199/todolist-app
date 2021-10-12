@@ -5,7 +5,8 @@ namespace App\Repositories;
 use App\Models\Collections\UsersCollection;
 use App\Models\User;
 use App\Config\DBConnect;
-use PDOException;
+
+
 
 class PdoLoginsRepo extends DBConnect implements LoginsRepository
 {
@@ -34,19 +35,19 @@ class PdoLoginsRepo extends DBConnect implements LoginsRepository
 
     public function register(User $user): void
     {
-        $sql = "INSERT INTO users (user_id, user_name, password) VALUES (user_id, user_name, password)";
+        $sql = "INSERT INTO users (user_id, user_name, password) VALUES ('user_id', 'user_name', 'password')";
 
         $this->connect()->prepare($sql)->execute([
-            ':user_id' => $user->getId(),
-            ':user_name' => $user->getName(),
-            ':password' => md5($_POST['password'])
+            'user_id' => $user->getId(),
+            'user_name' => $user->getName(),
+            'password' => md5($_POST['password'])
         ]);
     }
 
     public function login(): void
     {
         $password = md5($_POST['password']);
-        $sql = "SELECT * FROM users WHERE user_name=:user_name AND password= password";
+        $sql = "SELECT * FROM users WHERE user_name = 'user_name' AND password = 'password'";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([
             'user_name' => $_POST['user'],
@@ -58,7 +59,7 @@ class PdoLoginsRepo extends DBConnect implements LoginsRepository
             header('Location: /success');
         } else {
 
-            throw new PDOException('SORRY!');
+            echo 'SORRY!';exit;
         }
     }
 

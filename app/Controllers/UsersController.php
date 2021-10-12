@@ -16,11 +16,11 @@ class UsersController
         $this->loginRepository = new PdoLoginsRepo();
     }
 
-    public function showUsers(): void
+    public function showLogins(): void
     {
         $users = $this->loginRepository->getAll();
 
-        require_once 'app/Views/Users/showUserLogin.php';
+        require_once 'app/Views/Users/showUserLogin.template.php';
     }
 
     public function login(): void
@@ -36,8 +36,8 @@ class UsersController
 
     public function register(): void
     {
-        if(strlen(trim($_POST['password'])) < 10 || !ctype_lower($_POST['password']) > 35) header('Location: /register');
-        if($_POST['password'] !== $_POST['passwordVerification']) header('Location: /register');
+        if(strlen(trim($_POST['password'])) < 10 || !ctype_lower($_POST['password']) > 35) header('Location: /record');
+        if($_POST['password'] !== $_POST['passwordVerification']) header('Location: /record');
 
         $user = new User(
             Uuid::uuid4(),
@@ -45,7 +45,7 @@ class UsersController
         );
 
         $this->loginRepository->register($user);
-        header('Location: /registerSuccessful');
+        header('Location: /records');
     }
 
     public function confirmation(): void

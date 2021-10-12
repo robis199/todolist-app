@@ -1,6 +1,7 @@
 
 <?php require_once 'app/Views/Partials/header.template.php'; ?>
 <?php require_once 'app/Views/Partials/loggedin.template.php'; ?>
+
     <h1>Submit your personal data to our safe system</h1>
     <form action="/register" method="post">
         <label for="username">Username: </label><br>

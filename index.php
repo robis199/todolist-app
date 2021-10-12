@@ -20,9 +20,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get( '/success', 'UserController-loginSuccess');
     $r->get( '/logout', 'UserController-logout');
 
-    $r->get( '/records', 'UserController-userRegister');
-    $r->post('/records', 'UserController-register');
-    $r->get( '/registered', 'UserController-confirmation');
+    $r->get( '/record', 'UserController-userRegister');
+    $r->post('/record', 'UserController-record');
+    $r->get( '/records', 'UserController-registerSuccessful');
 
     $r->get( '/users', 'UserController-showUserLogin');
 
