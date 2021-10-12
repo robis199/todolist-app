@@ -8,7 +8,7 @@ require_once 'app/Views/Partials/loggedin.template.php';
 
 
 if(!isset($_SESSION['user_name'])){
-    header('Location: /loginView');
+    header('Location: /success');
 }
 
 
