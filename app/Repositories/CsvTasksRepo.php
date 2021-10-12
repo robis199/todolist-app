@@ -9,7 +9,7 @@ use League\Csv\Statement;
 use League\Csv\Writer;
 
 
-class CsvTaskRepo implements TasksRepository
+class CsvTasksRepo implements TasksRepository
 {
 
     private Reader $reader;

@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Config\DBConnect;
 use PDOException;
 
-class PdoLoginRepo extends DBConnect implements LoginRepository
+class PdoLoginsRepo extends DBConnect implements LoginsRepository
 {
 
 
@@ -34,7 +34,7 @@ class PdoLoginRepo extends DBConnect implements LoginRepository
 
     public function register(User $user): void
     {
-        $sql = "INSERT INTO users (user_id, user_name, password) VALUES (:user_id, :user_name, :password)";
+        $sql = "INSERT INTO users (user_id, user_name, password) VALUES (user_id, user_name, password)";
 
         $this->connect()->prepare($sql)->execute([
             ':user_id' => $user->getId(),
@@ -46,7 +46,7 @@ class PdoLoginRepo extends DBConnect implements LoginRepository
     public function login(): void
     {
         $password = md5($_POST['password']);
-        $sql = "SELECT * FROM users WHERE user_name=:user_name AND password=:password";
+        $sql = "SELECT * FROM users WHERE user_name=:user_name AND password= password";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([
             'user_name' => $_POST['user'],

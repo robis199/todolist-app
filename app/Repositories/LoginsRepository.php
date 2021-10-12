@@ -4,7 +4,7 @@ namespace App\Repositories;
 use App\Models\Collections\UsersCollection;
 use App\Models\User;
 
-interface LoginRepository
+interface LoginsRepository
 {
     public function getAll(): UsersCollection;
     public function register(User $user): void;

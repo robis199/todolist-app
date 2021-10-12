@@ -3,17 +3,17 @@
 namespace App\Controllers;
 
 use App\Models\User;
-use App\Repositories\PdoLoginRepo;
-use App\Repositories\LoginRepository;
+use App\Repositories\PdoLoginsRepo;
+use App\Repositories\LoginsRepository;
 use Ramsey\Uuid\Uuid;
 
 class UsersController
 {
-    private LoginRepository $loginRepository;
+    private LoginsRepository $loginRepository;
 
     public function __construct()
     {
-        $this->loginRepository = new PdoLoginRepo();
+        $this->loginRepository = new PdoLoginsRepo();
     }
 
     public function showUsers(): void

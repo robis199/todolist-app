@@ -7,7 +7,7 @@ use App\Models\Task;
 USE PDO;
 
 
-class PdoTaskRepo extends DBConnect implements TasksRepository
+class PdoTasksRepo extends DBConnect implements TasksRepository
 {
 
 

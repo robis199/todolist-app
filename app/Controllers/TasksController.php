@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 
 use App\Models\Task;
-use App\Repositories\PdoTaskRepo;
+use App\Repositories\PdoTasksRepo;
 use App\Repositories\TasksRepository;
-use App\Repositories\CsvTaskRepo;
+use App\Repositories\CsvTasksRepo;
 use Ramsey\Uuid\Uuid;
 
 class TasksController
@@ -16,7 +16,7 @@ class TasksController
 
     public function __construct()
     {
-        $this->tasksRepository = new PdoTaskRepo();
+        $this->tasksRepository = new PdoTasksRepo();
     }
 
 
