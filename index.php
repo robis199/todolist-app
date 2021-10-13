@@ -1,8 +1,11 @@
 <?php
-session_start();
+
 
 
 require_once 'vendor/autoload.php';
+
+
+session_start();
 
 
 
@@ -15,16 +18,16 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get('/tasks/{id}', 'TasksController-show');
 
 
-    $r->get( '/login', 'UserController-userLogin');
-    $r->post( '/login', 'UserController-login');
-    $r->get( '/success', 'UserController-loginSuccess');
-    $r->get( '/logout', 'UserController-logout');
+    $r->get( '/login', 'UsersController-userLogin');
+    $r->post( '/login', 'UsersController-login');
+    $r->get( '/success', 'UsersController-loginSuccess');
+    $r->get( '/logout', 'UsersController-logout');
 
-    $r->get( '/record', 'UserController-userRegister');
-    $r->post('/record', 'UserController-record');
-    $r->get( '/records', 'UserController-registerSuccessful');
+    $r->get( '/record', 'UsersController-userRegister');
+    $r->post('/record', 'UsersController-record');
+    $r->get( '/records', 'UsersController-registerSuccessful');
 
-    $r->get( '/users', 'UserController-showUserLogin');
+    $r->get( '/users', 'UsersController-showUserLogin');
 
 });
 

@@ -20,7 +20,7 @@ class UsersController
     {
         $users = $this->loginRepository->getAll();
 
-        require_once 'app/Views/Users/showUserLogin.template.php';
+        require_once 'app/Templates/Users/showUserLogin.template.php';
     }
 
     public function login(): void
@@ -34,14 +34,17 @@ class UsersController
         header('Location: /');
     }
 
-    public function register(): void
+    public function register(): void   // atdali validaciju
     {
         if(strlen(trim($_POST['password'])) < 10 || !ctype_lower($_POST['password']) > 35) header('Location: /record');
         if($_POST['password'] !== $_POST['passwordVerification']) header('Location: /record');
 
         $user = new User(
             Uuid::uuid4(),
-            $_POST['username']
+            $_POST['user_name'],
+            $_POST['password'],
+            $_POST['email'],
+            $_POST['gender'],
         );
 
         $this->loginRepository->register($user);
@@ -50,21 +53,21 @@ class UsersController
 
     public function confirmation(): void
     {
-        require_once 'app/Views/Users/confirmation.template.php';
+        require_once 'app/Templates/Users/confirmation.template.php';
     }
 
     public function userLogin(): void
     {
-        require_once 'app/Views/Users/loginForm.template.php';
+        require_once 'app/Templates/Users/loginForm.template.php';
     }
 
     public function userRegister(): void
     {
-        require_once 'app/Views/Users/passwordFormCheck.php';
+        require_once 'app/Templates/Users/passwordFormCheck.php';
     }
 
     public function loginSuccess(): void
     {
-        require_once 'app/Views/Users/loginSuccess.template.php';
+        require_once 'app/Templates/Users/loginSuccess.template.php';
     }
 }

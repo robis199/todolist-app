@@ -1,4 +1,4 @@
-<?php require_once 'app/Views/partials/header.template.php'; ?>
+<?php require_once 'app/Templates/partials/header.template.php'; ?>
 <body>
         <h1>To-Do</h1> (<a href="/tasks/create">Add</a>)
       <ul>

@@ -1,4 +1,4 @@
-<?php require_once 'app/Views/partials/header.template.php'; ?>
+<?php require_once 'app/Templates/partials/header.template.php'; ?>
 
 
 <body>

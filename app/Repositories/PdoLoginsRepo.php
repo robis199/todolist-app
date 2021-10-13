@@ -24,7 +24,11 @@ class PdoLoginsRepo extends DBConnect implements LoginsRepository
 
             $usersCollection->add(new User(
                 $row['user_id'],
-                $row['user_name']
+                $row['user_name'],
+                $row['password'],
+                $row['email'],
+                $row['gender'],
+
             ));
         }
 
@@ -35,18 +39,20 @@ class PdoLoginsRepo extends DBConnect implements LoginsRepository
 
     public function register(User $user): void
     {
-        $sql = "INSERT INTO users (user_id, user_name, password) VALUES ('user_id', 'user_name', 'password')";
+        $sql = "INSERT INTO users (user_id, user_name, password, email, gender) VALUES ('user_id', 'user_name', 'password', 'email', 'gender')";
 
         $this->connect()->prepare($sql)->execute([
             'user_id' => $user->getId(),
             'user_name' => $user->getName(),
-            'password' => md5($_POST['password'])
+            'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+            'email' => $user->getEmail(),
+            'gender' => $user->getGender()
         ]);
     }
 
     public function login(): void
     {
-        $password = md5($_POST['password']);
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $sql = "SELECT * FROM users WHERE user_name = 'user_name' AND password = 'password'";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([
@@ -59,7 +65,7 @@ class PdoLoginsRepo extends DBConnect implements LoginsRepository
             header('Location: /success');
         } else {
 
-            echo 'SORRY!';exit;
+            header('Location: /');
         }
     }
 

@@ -1,8 +1,8 @@
 
 <?php
 
-require_once 'app/Views/Partials/header.template.php';
-require_once 'app/Views/Partials/loggedin.template.php';
+require_once 'app/Templates/Partials/header.template.php';
+require_once 'app/Templates/Partials/loggedin.template.php';
 
 
 

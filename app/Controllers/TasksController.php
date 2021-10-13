@@ -24,13 +24,13 @@ class TasksController
     {
         $tasks = $this->tasksRepository->getAll();
 
-        require_once 'App/Views/tasks/index.template.php';
+        require_once 'App/Templates/tasks/index.template.php';
     }
 
 
 public function create()
 {
-    require_once 'App/Views/tasks/create.template.php';
+    require_once 'App/Templates/tasks/create.template.php';
 }
 
 
@@ -81,7 +81,7 @@ public function delete(array $vars)
 
         if($task === null) header('Location: /');
 
-        require_once 'app/Views/tasks/show.template.php';
+        require_once 'app/Templates/tasks/show.template.php';
     }
 
 }
