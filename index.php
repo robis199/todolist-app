@@ -1,12 +1,15 @@
 <?php
 
 
+use App\Templates\View;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 require_once 'vendor/autoload.php';
 
 
-session_start();
 
+session_start();
 
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
@@ -18,16 +21,16 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->get('/tasks/{id}', 'TasksController-show');
 
 
-    $r->get( '/login', 'UsersController-userLogin');
-    $r->post( '/login', 'UsersController-login');
-    $r->get( '/success', 'UsersController-loginSuccess');
-    $r->get( '/logout', 'UsersController-logout');
+    $r->get( '/users', 'LogInController-showLogins');
+    $r->get( '/login', 'LogInController-login');
+    $r->post( '/login', 'LogInController-login');
+    $r->get( '/success', 'LogInController-loginSuccess');
+    $r->get( '/logout', 'LogInController-logout');
 
-    $r->get( '/record', 'UsersController-userRegister');
-    $r->post('/record', 'UsersController-record');
-    $r->get( '/records', 'UsersController-registerSuccessful');
+    $r->get( '/record', 'LogInController-userRegister');
+    $r->post('/record', 'LogInController-userRegister');
+    $r->get( '/records', 'LogInController-registerSuccessful');
 
-    $r->get( '/users', 'UsersController-showUserLogin');
 
 });
 
@@ -37,6 +40,9 @@ function base_path(): string
 
 }
 
+$loader = new FilesystemLoader('app/Templates');
+$templateEngine = new Environment($loader, []);
+$templateEngine->addGlobal('session', $_SESSION);
 
 // Fetch method and URI from somewhere
 $httpMethod = $_SERVER['REQUEST_METHOD'];
@@ -49,7 +55,10 @@ if (false !== $pos = strpos($uri, '?')) {
 $uri = rawurldecode($uri);
 
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
-switch ($routeInfo[0]) {
+
+switch ($routeInfo[0])
+{
+
     case FastRoute\Dispatcher::NOT_FOUND:
         // ... 404 Not Found
         break;
@@ -63,9 +72,16 @@ switch ($routeInfo[0]) {
 
         [$controller, $method] = explode('-', $handler);
 
-        $controller= 'App\Controllers\\' . $controller;
+        $controller = 'App\Controllers\\' . $controller;
         $controller = new $controller();
-        $controller->$method($vars);
+        $render = $controller->$method($vars);
+
+
+        if ($render instanceof View) {
+            echo $templateEngine->render($render->getTemplate(), $render->getVariables());
+        }
 
         break;
 }
+
+unset($_SESSION['user_name']);

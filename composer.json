@@ -10,6 +10,9 @@
     "ramsey/uuid": "^4.2",
     "league/csv": "^9.72",
     "nesbot/carbon": "^2.53",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "twig/twig": "^3.0",
+    "twig/markdown-extra": "^3.3",
+    "twig/extra-bundle": "^3.3"
   }
 }

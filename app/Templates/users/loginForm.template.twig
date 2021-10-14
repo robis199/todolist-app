@@ -1,5 +1,24 @@
 
-<?php require_once 'app/Templates/partials/header.template.php'; ?>
+{% extends "twigMarkDown.twig" %}
+
+{% block content %}
+
+
+{% block loggedin %}
+    {% if session.user_name is defined %}
+
+        You have logged in {{ session.user_name }}
+        <a href='/logout'>Logout</a><br>
+
+    {% else %}
+
+        Viewing as a guest
+        <a href='/login'>Login</a><br>
+
+    {% endif %}
+{% endblock %}
+
+{% block content %}
 
     <h3>Login to our super safe database</h3>
 
@@ -9,7 +28,7 @@
 
         <br>
 
-        <input type="text" id="name" name="name" value="name"
+        <input type="text" id="name" name="name"
 
         /><br>
 
@@ -17,17 +36,19 @@
 
         <br>
 
-        <input type="email" id="email" name="email" value="email"
+        <input type="email" id="email" name="email"
 
         /><br>
 
         <label for="password">Enter password: </label><br>
-        <input type="password" id="password" name="password" value="password"
+        <input type="password" id="password" name="password"
 
+        /><br>
         <label for="passwordVerification">Re-enter password: </label><br>
         <input type="password" id="passwordVerification" name="passwordVerification" /><br><br>
 
-        /><br>
+
+
 
         <p>Male or female? Choose below.</p>
         <label for="gender">
@@ -41,6 +62,6 @@
         <input type="submit" name="login" value="login" />
 
     </form>
-
+{% endblock %}
 
 

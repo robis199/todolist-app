@@ -6,22 +6,24 @@ use App\Models\User;
 
 class UsersCollection
 {
-    private array $userLog = [];
+    private array $users = [];
 
     public function __construct(array $users = [])
     {
         foreach($users as $user){
+
             $this->add($user);
         }
     }
 
     public function add(User $user): void
     {
-        $this->userLog[$user->getId()] = $user;
+        $this->users[$user->getId()] = $user;
     }
 
-    public function getUserLog(): array
+
+    public function getUsers(): array
     {
-        return $this->userLog;
+        return $this->users;
     }
 }

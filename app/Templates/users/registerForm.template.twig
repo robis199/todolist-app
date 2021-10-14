@@ -1,0 +1,46 @@
+
+<?php /*require_once 'app/Templates/Partials/header.template.php'; */?><!--
+--><?php /*require_once 'app/Templates/Partials/loggedin.template.php'; */?>
+
+{% extends "twigMarkDown.twig" %}
+{% block loggedin %}
+{% if session.user_name is defined %}
+
+You have logged in {{ session.user_name }}
+<a href='/logout'>Logout</a><br>
+
+{% else %}
+
+Viewing as a guest
+<a href='/login'>Login</a><br>
+
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+    <h2>Register your personal data to our safe system</h2>
+
+    <form action="/record" method="post">
+
+        <label for="user">Username: </label><br>
+        <input type="text" id="user" name="user" /><br>
+
+        <label for="password">Password: </label><br>
+        <input type="password" id="password" name="password" /><br>
+
+        <label for="passwordVerification">Repeat password: </label><br>
+        <input type="password" id="passwordVerification" name="passwordVerification" /><br><br>
+
+        <label for="email">Repeat password: </label><br>
+        <input type="email" id="email" name="email" /><br><br>
+
+        <label for="passwordVerification">Repeat password: </label><br>
+        <input type="password" id="passwordVerification" name="passwordVerification" /><br><br>
+
+        <button><input type="submit" name="record" value="Register" /></button>
+
+    </form>
+
+{% endblock %}

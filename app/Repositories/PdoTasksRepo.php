@@ -4,7 +4,7 @@ Namespace App\Repositories;
 use App\Config\DBConnect;
 use App\Models\Collections\TasksCollection;
 use App\Models\Task;
-USE PDO;
+use PDO;
 
 
 class PdoTasksRepo extends DBConnect implements TasksRepository
