@@ -78,7 +78,10 @@ switch ($routeInfo[0])
 
 
         if ($render instanceof View) {
-            echo $templateEngine->render($render->getTemplate(), $render->getVariables());
+            try {
+                echo $templateEngine->render($render->getTemplate(), $render->getVariables());
+            } catch (\Twig\Error\LoaderError | \Twig\Error\RuntimeError | \Twig\Error\SyntaxError $e) {
+            }
         }
 
         break;
