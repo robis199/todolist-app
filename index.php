@@ -1,48 +1,29 @@
 <?php
-
-
-use App\Templates\View;
+require_once 'vendor/autoload.php';
+use App\View;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-
-require_once 'vendor/autoload.php';
-
-
 
 session_start();
 
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    $r->get('/', 'TasksController-index');
     $r->get('/tasks', 'TasksController-index');
-    $r->get('/tasks/create', 'TasksController-create');
     $r->post('/tasks', 'TasksController-store');
+    $r->get('/tasks/create', 'TasksController-search');
     $r->post('/tasks/{id}', 'TasksController-delete');
-    $r->get('/tasks/{id}', 'TasksController-show');
 
-
-    $r->get( '/users', 'LogInController-showLogins');
-    $r->get( '/login', 'LogInController-login');
-    $r->post( '/login', 'LogInController-login');
-    $r->get( '/success', 'LogInController-loginSuccess');
-    $r->get( '/logout', 'LogInController-logout');
-
-    $r->get( '/record', 'LogInController-userRegister');
-    $r->post('/record', 'LogInController-userRegister');
-    $r->get( '/records', 'LogInController-registerSuccessful');
-
-
+    $r->post( '/registration', 'AuthController-register');
+    $r->get( '/registration', 'AuthController-registrationForm');
+    $r->post( '/login', 'AuthController-login');
+    $r->get( '/login', 'AuthController-loginForm');
+    $r->get( '/welcome', 'AuthController-logInSuccessful');
+    $r->get( '/user', 'AuthController-userInfo');
+    $r->post('/user', 'AuthController-logout');
 });
 
-function base_path(): string
-{
-    return __DIR__;
+$twig = new Environment(new FilesystemLoader("app/Views"), []);
 
-}
-
-$loader = new FilesystemLoader('app/Templates');
-$templateEngine = new Environment($loader, []);
-$templateEngine->addGlobal('session', $_SESSION);
 
 // Fetch method and URI from somewhere
 $httpMethod = $_SERVER['REQUEST_METHOD'];
@@ -69,22 +50,22 @@ switch ($routeInfo[0])
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
-
         [$controller, $method] = explode('-', $handler);
 
-        $controller = 'App\Controllers\\' . $controller;
-        $controller = new $controller();
+        $path = 'App\Controllers\\' . $handler;
+        $controller = new $path();
         $render = $controller->$method($vars);
 
-
         if ($render instanceof View) {
-            try {
-                echo $templateEngine->render($render->getTemplate(), $render->getVariables());
-            } catch (\Twig\Error\LoaderError | \Twig\Error\RuntimeError | \Twig\Error\SyntaxError $e) {
-            }
+
+            echo $twig->render(
+                /** $var View $response */
+                $render->getPath(),
+                $render->getData()
+            );
         }
 
         break;
 }
 
-unset($_SESSION['user_name']);
+unset($_SESSION['errors']);

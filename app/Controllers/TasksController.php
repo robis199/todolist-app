@@ -1,54 +1,49 @@
 <?php
-
 namespace App\Controllers;
-
 
 use App\Models\Task;
 use App\Repositories\PdoTasksRepo;
 use App\Repositories\TasksRepository;
 use Ramsey\Uuid\Uuid;
+use App\View;
+use App\Redirect;
 
 class TasksController
 {
-
     private TasksRepository $tasksRepository;
 
     public function __construct()
     {
         $this->tasksRepository = new PdoTasksRepo();
-
     }
 
-
-    public function index()
+    public function index(): View
     {
         $tasks = $this->tasksRepository->getAll();
 
-        require_once 'App/Templates/tasks/index.template.php';
+        if (isset($_SESSION["user-name"])) {
+            $user = "Hello, " . $_SESSION["user-name"] . "!";
+        } else {
+            $user ="";
+        }
+
+        $view = new View("tasks.view.twig", ["tasks" => $tasks->getTasks(), "user" => $user]);
+        return $view;
     }
-
-
-public function create()
-{
-    require_once 'App/Templates/tasks/create.template.php';
-}
 
 
     public function store()
 {
+    if(isset($_POST["submit"])) {
+        $task = new Task(
+            Uuid::uuid4(),
+            $_POST['task'],
+            Task::STATUS_STARTED
+        );
+        $this->tasksRepository->save($task);
+    }
 
-
-    $task = new Task(
-        Uuid::uuid4(),
-        $_POST['task'],
-        Task::STATUS_STARTED
-    );
-
-$this->tasksRepository->save($task);
-
-
-
-    header('Location: /tasks');
+    Redirect::url("/tasks");
 }
 
 public function delete(array $vars)
@@ -65,24 +60,23 @@ public function delete(array $vars)
             $this->tasksRepository->delete($task);
         }
 
-        header('Location: /');
+    Redirect::url("/tasks");
 }
 
 
-    public function show(array $vars)
+    public function search(): View
     {
-
-
-        $id = $vars['id'] ?? null;
-
-        if ($id==null) header('Location: /');
-
-        $task = $this->tasksRepository->getOne($id);
-
-        if($task === null) header('Location: /');
-
-        require_once 'app/Templates/tasks/show.template.php';
+        if(isset($_GET["search"]))
+        {
+            $search = $this->tasksRepository
+                ->search($_GET["id"]);
+        }
+        $view = new View("search.view.twig", ["search" => $search]);
+        return $view;
     }
+
+
+
 
 }
 

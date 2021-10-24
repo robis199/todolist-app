@@ -11,4 +11,5 @@ interface TasksRepository
     public function getOne(string $id): ?Task;
     public function save(Task $task): void;
     public function delete(Task $task): void;
+    public function search(string $id): Task;
 }

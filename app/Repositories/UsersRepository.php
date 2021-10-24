@@ -6,8 +6,6 @@ use App\Models\User;
 
 interface UsersRepository
 {
-    public function getAll(): UsersCollection;
     public function register(User $user): void;
-    public function getByGender(string $gender);
-
+    public function searchUser($email): ?User;
 }

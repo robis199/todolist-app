@@ -10,6 +10,10 @@
     <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
 </form>
 
+<form method="get" action="/edit/<?php echo $task->getId(); ?>">
+    <button type="submit" name="edit">Edit</button>
+</form>
+
 (<a href="/tasks">Back</a>)
 
 </body>
